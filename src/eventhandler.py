@@ -6,6 +6,7 @@ Created on Jan 25, 2014
 
 from pymouse import PyMouse
 from pykeyboard import PyKeyboard
+import webbrowser
 
 MOTION_DOWN = 0
 MOTION_MOVE = 1
@@ -138,6 +139,8 @@ class EventHandler:
             k.press_key(k.control_l_key)
             k.tap_key(k.tab_key)
             k.release_key(k.control_l_key)
+        elif type == GESTURE_CUSTOM:
+            webbrowser.open_new_tab("https://www.facebook.com")
     
     # Calculates the new screen position
     def newMoveScreenPosition(self, a_x, a_y):
