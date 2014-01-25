@@ -5,7 +5,7 @@ Created on Jan 24, 2014
 '''
 
 import socket.tcpbluetooth
-import socketfile._fileobject
+import socketfile
 
 def main():
     connection = socket.tcpbluetooth.connect()
@@ -14,7 +14,9 @@ def main():
     
     f = makefile(connection)
     while True:
-        print f.readline()
+        if f.readline() == "DroidPad 1.0":
+            json = f.readline()
+            
     
 def makefile(socket, mode='r+b', bufsize=0):
     return socketfile._fileobject(socket, mode, bufsize)
