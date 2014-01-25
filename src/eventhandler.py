@@ -14,8 +14,9 @@ MOTION_UP = 2
 GESTURE_TAP = 0
 GESTURE_DOUBLE_TAP = 1
 GESTURE_LONG_PRESS = 2
-GESTURE_SCROLL = 3
-GESTURE_PINCH = 4
+GESTURE_LONG_PRESS_DRAG = 3
+GESTURE_SCROLL = 4
+GESTURE_PINCH = 5
 
 class EventHandler:
     m = PyMouse()
@@ -30,6 +31,8 @@ class EventHandler:
     s_first_y = 0
     
     moveSensitivity = 1.
+    
+    isDragging = False
     
     def handle(self, event):
         pointers = event.get("pointers")
@@ -60,6 +63,12 @@ class EventHandler:
             s_new_x, s_new_y = self.newMoveScreenPosition(pointer["x"], pointer["y"])
             print "Moving cursor to x:{x}, y:{y}".format(x=s_new_x, y=s_new_y)
             self.m.move(s_new_x, s_new_y)
+            
+        elif pointer["motionEvent"] == MOTION_UP:
+            # Release the mouse for drag
+            s_x, s_y = self.m.position()
+            self.m.release(s_x, s_y, 1)
+            self.isDragging = False
 
     # Process Gestures
     def performGesture(self, type, pointers):
@@ -73,19 +82,34 @@ class EventHandler:
             elif len(pointers) == 2:
                 print "Secondary click x:{x}, y:{y}".format(x=s_x, y=s_y)
                 self.m.click(s_x, s_y, button=2)
-            # Middle click if three pointers
+            # Middle click if three pointersdouble tap and drag android
             elif len(pointers) == 3:
                 print "Middle click x:{x}, y:{y}".format(x=s_x, y=s_y)
                 self.m.click(s_x, s_y, button=3)'''
         elif type == GESTURE_DOUBLE_TAP:
-            # There is a preceding single tap so we only need to send one more for a double tap
+            # Perform double click
             print "'Double' click x:{x}, y:{y}".format(x=s_x, y=s_y)
-            self.m.click(s_x, s_y, button=1)
+            self.m.click(s_x, s_y, button=1, n = 2)
         elif type == GESTURE_LONG_PRESS:
             # Secondary click for long press
             print "Secondary click x:{x}, y:{y}".format(x=s_x, y=s_y)
             self.m.click(s_x, s_y, button=2)
-        elif type == GESTURE_SCROLL:
+        elif type == GESTURE_LONG_PRESS_DRAG:
+            if not self.isDragging:
+                self.isDragging = True
+                self.m.press(s_x, s_y, 1)
+                
+                #Store beginning variables
+                self.a_first_x = pointers[0]["x"]
+                self.a_first_y = pointers[0]["y"]
+                self.s_first_x = s_x
+                self.s_first_y = s_y
+            else:
+                # Drag
+                s_new_x, s_new_y = self.newMoveScreenPosition(pointers[0]["x"], pointers[0]["y"])
+                self.m.move(s_new_x, s_new_y)
+            
+            
             pass
     
     # Calculates the new screen position
@@ -94,6 +118,15 @@ class EventHandler:
         a_diff_y = a_y - self.a_first_y
         s_new_x = self.s_first_x + a_diff_x * self.moveSensitivity
         s_new_y = self.s_first_y + a_diff_y * self.moveSensitivity
+        
+        # Stop at border
+        if s_new_x < 0:
+            s_new_x = 0
+            self.a_first_x = a_x
+        if s_new_y < 0:
+            s_new_y = 0
+            self.a_first_y = a_y
+        
         return int(s_new_x), int(s_new_y)
         
         
