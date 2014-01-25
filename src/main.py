@@ -12,12 +12,9 @@ def main():
     if connection == None:
         return
     
-    f = makefile(socket)
+    f = makefile(connection)
     while True:
         print f.readline()
-    
-    #with open(connection, "rw") as f:
-     #   print f.readline()
     
 def makefile(socket, mode='r+b', bufsize=0):
     return socketfile._fileobject(socket, mode, bufsize)

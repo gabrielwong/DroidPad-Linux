@@ -215,7 +215,7 @@ class _fileobject(object):
                 while True:
                     try:
                         while data != "\n":
-                            data = recv(1)
+                            data = self._sock.recv(1)
                             if not data:
                                 break
                             buffers.append(data)
