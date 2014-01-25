@@ -31,6 +31,7 @@ class EventHandler:
     s_first_y = 0
     
     moveSensitivity = 1.
+    scrollSensitivity = 1.
     
     isDragging = False
     
@@ -61,8 +62,25 @@ class EventHandler:
         # Move the mouse
         elif pointer["motionEvent"] == MOTION_MOVE:
             s_new_x, s_new_y = self.newMoveScreenPosition(pointer["x"], pointer["y"])
-            print "Moving cursor to x:{x}, y:{y}".format(x=s_new_x, y=s_new_y)
-            self.m.move(s_new_x, s_new_y)
+            #Scroll
+            if len(pointers == 2):
+                # Release if dragging
+                if self.isDragging:
+                    self.m.release(s_new_x, s_new_y, 1)
+                    self.isDragging = False
+                
+                # Average location of both pointers to determine scroll
+                a_x = (pointers[0]["x"] + pointers[1]["x"])/2
+                a_y = (pointers[0]["y"] + pointers[1]["y"])/2
+                
+                self.m.scroll(a_x - self.a_first_x, a_y - self.a_first_y)
+                
+                # Update previous scroll location
+                self.a_first_x = a_x
+                self.a_first_y = a_y
+            else: #Move mouse
+                print "Moving cursor to x:{x}, y:{y}".format(x=s_new_x, y=s_new_y)
+                self.m.move(s_new_x, s_new_y)
             
         elif pointer["motionEvent"] == MOTION_UP:
             # Release the mouse for drag
@@ -78,14 +96,6 @@ class EventHandler:
             if len(pointers) == 1:
                 print "Primary click x:{x}, y:{y}".format(x=s_x, y=s_y)
                 self.m.click(s_x, s_y, button=1)
-            '''# Secondary click if two pointers
-            elif len(pointers) == 2:
-                print "Secondary click x:{x}, y:{y}".format(x=s_x, y=s_y)
-                self.m.click(s_x, s_y, button=2)
-            # Middle click if three pointersdouble tap and drag android
-            elif len(pointers) == 3:
-                print "Middle click x:{x}, y:{y}".format(x=s_x, y=s_y)
-                self.m.click(s_x, s_y, button=3)'''
         elif type == GESTURE_DOUBLE_TAP:
             # Perform double click
             print "'Double' click x:{x}, y:{y}".format(x=s_x, y=s_y)
