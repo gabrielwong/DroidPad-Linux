@@ -69,20 +69,22 @@ class EventHandler:
             if len(pointers) == 1:
                 print "Primary click x:{x}, y:{y}".format(x=s_x, y=s_y)
                 self.m.click(s_x, s_y, button=1)
-            # Secondary click if two pointers
+            '''# Secondary click if two pointers
             elif len(pointers) == 2:
                 print "Secondary click x:{x}, y:{y}".format(x=s_x, y=s_y)
                 self.m.click(s_x, s_y, button=2)
             # Middle click if three pointers
             elif len(pointers) == 3:
                 print "Middle click x:{x}, y:{y}".format(x=s_x, y=s_y)
-                self.m.click(s_x, s_y, button=3)
+                self.m.click(s_x, s_y, button=3)'''
         elif type == GESTURE_DOUBLE_TAP:
             # There is a preceding single tap so we only need to send one more for a double tap
             print "'Double' click x:{x}, y:{y}".format(x=s_x, y=s_y)
             self.m.click(s_x, s_y, button=1)
         elif type == GESTURE_LONG_PRESS:
-            pass
+            # Secondary click for long press
+            print "Secondary click x:{x}, y:{y}".format(x=s_x, y=s_y)
+            self.m.click(s_x, s_y, button=2)
         elif type == GESTURE_SCROLL:
             pass
     
