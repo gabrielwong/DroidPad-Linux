@@ -31,7 +31,7 @@ class EventHandler:
     s_first_y = 0
     
     moveSensitivity = 1.
-    scrollSensitivity = 1.
+    scrollSensitivity = 0.3
     
     isDragging = False
     
