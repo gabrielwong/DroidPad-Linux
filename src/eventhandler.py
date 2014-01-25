@@ -44,7 +44,7 @@ class EventHandler:
         if gesture != None:
             gestureType = gesture.get("type")
             if gestureType != None:
-                self.performGesture(type)
+                self.performGesture(type, pointers)
                 return
         # Otherwise process pointer movement
         pointer = pointers[0]
@@ -81,6 +81,10 @@ class EventHandler:
             # There is a preceding single tap so we only need to send one more for a double tap
             print "'Double' click x:{x}, y:{y}".format(x=s_x, y=s_y)
             self.m.click(s_x, s_y, button=1)
+        elif type == GESTURE_LONG_PRESS:
+            pass
+        elif type == GESTURE_SCROLL:
+            pass
     
     # Calculates the new screen position
     def newMoveScreenPosition(self, a_x, a_y):
