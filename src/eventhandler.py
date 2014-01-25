@@ -28,7 +28,10 @@ class EventHandler:
             if gestureType != None:
                 self.performGesture(type, prev_x, prev_y)
         
-        self.m.move(pointers[0]["x"], pointers[0]["y"])
+        next_x = int(pointers[0]["x"])
+        next_y = int(pointers[0]["x"])
+        print "Moving cursor to x:{x}, y:{y}".format(x=next_x, y=next_y)
+        self.m.move(next_x, next_y)
             
     def performGesture(self, type, prev_x, prev_y):
         if type == 0:
