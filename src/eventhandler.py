@@ -17,6 +17,9 @@ GESTURE_LONG_PRESS = 2
 GESTURE_LONG_PRESS_DRAG = 3
 GESTURE_SCROLL = 4
 GESTURE_RIGHT_CLICK = 5
+GESTURE_LEFT_TAB_SWITCH = 6
+GESTURE_RIGHT_TAB_SWITCH = 7
+GESTURE_CUSTOM = 8
 
 class EventHandler:
     m = PyMouse()
@@ -123,7 +126,18 @@ class EventHandler:
                 # Update previous scroll location
                 self.a_first_x = a_x
                 self.a_first_y = a_y
-            
+        elif type == GESTURE_LEFT_TAB_SWITCH:
+            k = self.k
+            k.press_key(k.alt_l_key)
+            k.press_key(k.control_l_key)
+            k.tap_key(k.tab_key)
+            k.release_key(k.control_l_key)
+            k.release_key(k.alt_l_key)
+        elif type == GESTURE_RIGHT_TAB_SWITCH:
+            k = self.k
+            k.press_key(k.control_l_key)
+            k.tap_key(k.tab_key)
+            k.release_key(k.control_l_key)
     
     # Calculates the new screen position
     def newMoveScreenPosition(self, a_x, a_y):
