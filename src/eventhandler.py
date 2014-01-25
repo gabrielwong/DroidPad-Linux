@@ -7,9 +7,23 @@ Created on Jan 25, 2014
 from pymouse import PyMouse
 from pykeyboard import PyKeyboard
 
+MOTION_DOWN = 0
+MOTION_MOVE = 1
+MOTION_UP = 2
+
 class EventHandler:
     m = PyMouse()
     k = PyKeyboard()
+    
+    # Android coordinates on down
+    a_first_x = 0
+    a_first_y = 0
+    
+    # Screen coordinates on down
+    s_first_x = 0
+    s_first_y = 0
+    
+    moveSensitivity = 1.
     
     def handle(self, event):
         pointers = event.get("pointers")
@@ -20,19 +34,28 @@ class EventHandler:
             print "No pointers given"
             return
         
-        prev_x, prev_y = self.m.position()
-        
         # Interpret gestures if present
         if gesture != None:
             gestureType = gesture.get("type")
             if gestureType != None:
-                self.performGesture(type, prev_x, prev_y)
-        
-        next_x = int(pointers[0]["x"])
-        next_y = int(pointers[0]["x"])
-        print "Moving cursor to x:{x}, y:{y}".format(x=next_x, y=next_y)
-        self.m.move(next_x, next_y)
+                s_x, s_y = self.m.position()
+                self.performGesture(type, s_x, s_y)
+        else: # Otherwise process pointer movement
+            pointer = pointers[0]
             
+            # Store initial coordinates
+            if pointer["motionEvent"] == MOTION_DOWN:
+                self.a_first_x = pointer["x"]
+                self.a_first_y = pointer["y"]
+                self.s_first_x, self.s_first_y = self.m.position()
+                
+            # Move the mouse
+            elif pointer["motionEvent"] == MOTION_MOVE:
+                s_new_x, s_new_y = self.newMoveScreenPosition(pointer["x"], pointer["y"])
+                print "Moving cursor to x:{x}, y:{y}".format(x=s_new_x, y=s_new_y)
+                self.m.move(s_new_x, s_new_y)
+
+    # Process Gestures
     def performGesture(self, type, prev_x, prev_y):
         if type == 0:
             print "Primary click x:{x}, y:{y}".format(x=prev_x, y=prev_y)
@@ -41,6 +64,12 @@ class EventHandler:
             print "Right click x:{x}, y:{y}".format(x=prev_x, y=prev_y)
             self.m.click(prev_x, prev_y, button=2)
     
-
-
+    # Calculates the new screen position
+    def newMoveScreenPosition(self, a_x, a_y):
+        a_diff_x = a_x - self.a_first_x
+        a_diff_y = a_x - self.a_first_y
+        s_new_x = self.s_first_x + a_diff_x * self.moveSensitivity
+        s_new_y = self.s_first_y + a_diff_y * self.moveSensitivity
+        return s_new_x, s_new_y
+        
         
