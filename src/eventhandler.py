@@ -107,7 +107,7 @@ class EventHandler:
             if len(pointers) == 2:
                 # Release if dragging
                 if self.isDragging:
-                    self.m.release(s_new_x, s_new_y, 1)
+                    self.m.release(s_x, s_y, 1)
                     self.isDragging = False
                 
                 # Average location of both pointers to determine scroll
