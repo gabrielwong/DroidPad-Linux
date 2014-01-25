@@ -16,9 +16,10 @@ def main():
     
     f = makefile(connection)
     
+    handler = eventhandler.EventHandler()
     for line in f:
-        event = json.load(line)
-        eventhandler.handle(event)
+        event = json.loads(line)
+        handler.handle(event)
     
     print "Stream closed"
             
