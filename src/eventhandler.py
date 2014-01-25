@@ -44,7 +44,7 @@ class EventHandler:
         if gesture != None:
             gestureType = gesture.get("type")
             if gestureType != None:
-                self.performGesture(type, pointers)
+                self.performGesture(gestureType, pointers)
                 return
         # Otherwise process pointer movement
         pointer = pointers[0]
