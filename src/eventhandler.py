@@ -12,8 +12,8 @@ class EventHandler:
     k = PyKeyboard()
     
     def handle(self, event):
-        pointers = event["pointers"]
-        gesture = event["gesture"]
+        pointers = event.get("pointers")
+        gesture = event.get("gesture")
         
         # Test for valid input
         if pointers == None or len(pointers) == 0:
@@ -24,7 +24,7 @@ class EventHandler:
         
         # Interpret gestures if present
         if gesture != None:
-            gestureType = gesture["type"]
+            gestureType = gesture.get("type")
             if gestureType != None:
                 self.performGesture(type, prev_x, prev_y)
         
