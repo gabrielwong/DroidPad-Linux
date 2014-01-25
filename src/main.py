@@ -4,8 +4,10 @@ Created on Jan 24, 2014
 @author: gabriel
 '''
 
+import json
 import socket.tcpbluetooth
 import socketfile
+import eventhandler
 
 def main():
     connection = socket.tcpbluetooth.connect()
@@ -13,9 +15,12 @@ def main():
         return
     
     f = makefile(connection)
-    while True:
-        if f.readline() == "DroidPad 1.0":
-            json = f.readline()
+    
+    for line in f:
+        event = json.load(line)
+        eventhandler.handle(event)
+    
+    print "Stream closed"
             
     
 def makefile(socket, mode='r+b', bufsize=0):

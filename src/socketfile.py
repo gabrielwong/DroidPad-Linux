@@ -1,7 +1,8 @@
 '''
 Created on Jan 25, 2014
+Copied and pasted from Python libs
 
-@author: gabriel
+@author: Python
 '''
 import _socket
 from _socket import *
