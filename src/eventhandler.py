@@ -120,7 +120,7 @@ class EventHandler:
                 a_x = (pointers[0]["x"] + pointers[1]["x"])/2
                 a_y = (pointers[0]["y"] + pointers[1]["y"])/2
                 
-                self.m.scroll(a_x - self.a_first_x, a_y - self.a_first_y)
+                self.m.scroll(vertical=a_y - self.a_first_y, horizontal=a_x - self.a_first_x)
                 
                 # Update previous scroll location
                 self.a_first_x = a_x
