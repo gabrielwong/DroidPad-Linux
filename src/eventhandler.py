@@ -122,8 +122,10 @@ class EventHandler:
         # Stop at border
         if s_new_x < 0:
             s_new_x = 0
+            self.s_first_x = 0
             self.a_first_x = a_x
         if s_new_y < 0:
+            self.s_first_y = 0
             s_new_y = 0
             self.a_first_y = a_y
         
