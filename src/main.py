@@ -11,8 +11,9 @@ def main():
     if connection == None:
         return
     
+    f = connection.makefile("r+b", buffersize=0)
     while True:
-        pass
+        print f.readline()
     
     #with open(connection, "rw") as f:
      #   print f.readline()
