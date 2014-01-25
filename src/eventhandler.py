@@ -128,8 +128,8 @@ class EventHandler:
                 self.a_first_y = a_y
         elif type == GESTURE_LEFT_TAB_SWITCH:
             k = self.k
-            k.press_key(k.alt_l_key)
             k.press_key(k.shift_l_key)
+            k.press_key(k.control_l_key)
             k.tap_key(k.tab_key)
             k.release_key(k.control_l_key)
             k.release_key(k.shift_l_key)
