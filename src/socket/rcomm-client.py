@@ -32,5 +32,6 @@ def connect(name = None):
     
     return sock
 
+# Close the socket
 def close(sock):
     sock.close()
