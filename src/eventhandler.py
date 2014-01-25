@@ -70,6 +70,6 @@ class EventHandler:
         a_diff_y = a_x - self.a_first_y
         s_new_x = self.s_first_x + a_diff_x * self.moveSensitivity
         s_new_y = self.s_first_y + a_diff_y * self.moveSensitivity
-        return s_new_x, s_new_y
+        return int(s_new_x), int(s_new_y)
         
         
