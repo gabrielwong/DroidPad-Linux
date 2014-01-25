@@ -16,7 +16,7 @@ GESTURE_DOUBLE_TAP = 1
 GESTURE_LONG_PRESS = 2
 GESTURE_LONG_PRESS_DRAG = 3
 GESTURE_SCROLL = 4
-GESTURE_PINCH = 5
+GESTURE_RIGHT_CLICK = 5
 
 class EventHandler:
     m = PyMouse()
@@ -31,7 +31,7 @@ class EventHandler:
     s_first_y = 0
     
     moveSensitivity = 1.
-    scrollSensitivity = 0.1
+    scrollSensitivity = 0.05
     
     isDragging = False
     
@@ -80,18 +80,12 @@ class EventHandler:
             if len(pointers) == 1:
                 print "Primary click x:{x}, y:{y}".format(x=s_x, y=s_y)
                 self.m.click(s_x, s_y, button=1)
-            if len(pointers) == 2:
-                print "Secondary click x:{x}, y:{y}".format(x=s_x, y=s_y)
-                self.m.click(s_x, s_y, button=2)
-            if len(pointers) == 3:
-                print "Middle click x:{x}, y:{y}".format(x=s_x, y=s_y)
-                self.m.click(s_x, s_y, button=3)
         elif type == GESTURE_DOUBLE_TAP:
             # Perform double click
             print "'Double' click x:{x}, y:{y}".format(x=s_x, y=s_y)
             self.m.click(s_x, s_y, button=1, n = 2)
-        elif type == GESTURE_LONG_PRESS:
-            # Secondary click for long press
+        elif type == GESTURE_RIGHT_CLICK:
+            # Secondary click
             print "Secondary click x:{x}, y:{y}".format(x=s_x, y=s_y)
             self.m.click(s_x, s_y, button=2)
         elif type == GESTURE_LONG_PRESS_DRAG:
@@ -126,6 +120,7 @@ class EventHandler:
                 # Update previous scroll location
                 self.a_first_x = a_x
                 self.a_first_y = a_y
+            
     
     # Calculates the new screen position
     def newMoveScreenPosition(self, a_x, a_y):
