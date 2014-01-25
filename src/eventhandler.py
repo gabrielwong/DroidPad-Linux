@@ -31,7 +31,7 @@ class EventHandler:
     s_first_y = 0
     
     moveSensitivity = 1.
-    scrollSensitivity = 0.05
+    scrollSensitivity = 0.1
     
     isDragging = False
     
@@ -114,8 +114,11 @@ class EventHandler:
                 a_x = (pointers[0]["x"] + pointers[1]["x"])/2
                 a_y = (pointers[0]["y"] + pointers[1]["y"])/2
                 
+                vertical = (a_y - self.a_first_y) * self.scrollSensitivity
+                horizontal = (a_x - self.a_first_x) * self.scrollSensitivity
+                
                 print "Scrolling vertical:{y} horizontal:{x}".format(x=a_x, y=a_y)
-                self.m.scroll(vertical=a_y - self.a_first_y, horizontal=a_x - self.a_first_x)
+                self.m.scroll(vertical=vertical, horizontal=horizontal)
                 
                 # Update previous scroll location
                 self.a_first_x = a_x
